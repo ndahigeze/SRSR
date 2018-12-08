@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:b="http://bootsfaces.net/ui"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="#{request.contextPath}/css/bootstrap-material.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/css/myStyle.css" rel="stylesheet" type="text/css"/>
+        <script src="#{request.contextPath}/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/js/Myjs.js" type="text/javascript"></script>
+    </h:head>
+    <h:body style="font-size: 15px">
+        <h:form id="head">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li classs="nav-item active">
+                            <a class="nav-link" href="#" id="login">Login<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item" id="register">
+                            <a class="nav-link" href="#">Register</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </h:form>
+        <div class="container-fluid mt-3">
+            <div class="row" id="row1">
+                <div class="col-md-4 offset-4">
+                    <div class="card">
+                        <div class="card-header">
+                            Login
+                        </div>
+                        <div class="card-body">
+                            <h:form>
+                                <table style="width: 100%;">
+                                    <tr>
+                                        <td><label>Username</label></td>
+                                        <td><b:inputText id="username" value="#{userModel.code}" style="height: 30px"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <td><label>Password</label></td>
+                                        <td><b:inputText id="password" value="#{userModel.password}" style="height: 30px"></b:inputText></td>
+                                    </tr>
+                                    <tr>
+                                        <p:messages autoUpdate="true" />
+                                        <td><b:commandButton class="btn btn-primary" value="Login" action="#{userModel.login()}"></b:commandButton></td>
+                                    </tr>
+                                </table>  
+                            </h:form>
+                        </div>
+                        <div class="card-footer"></div>
+                    </div>
+                </div>
+            </div>   
+            <div class="row" id="row2">
+                <div class="col-md-4 offset-4">
+                    <h:form >
+                        <div class="card">
+                            <div class="card-header">
+                                Register
+                            </div>
+                            <div class="card-body">
+                                <p:panel toggleable="true"  id="register">
+                                    <p:messages autoUpdate="true" />
+                                    <h:panelGrid columns="2" style="width: 100%;">
+                                        <label for="sid">ID</label>
+                                        <b:inputText style="height: 30px" value="#{userModel.user.sid}" required="true" required-message="Student Id is Required"/>
+                                        <label>First Name</label>
+                                        <b:inputText id="fname" style="height: 30px" value="#{userModel.user.fname}" required="true" required-message="This is Required"/>
+                                        <label>Last Name</label>
+                                        <b:inputText id="lname" style="height: 30px" value="#{userModel.user.lname}" required="true" required-message="This is Required"/>
+                                        <label>Phone</label>
+                                        <b:inputText id="phone" style="height: 30px" value="#{userModel.user.phone}" required="true" required-message="This is Required"/>
+                                        <label>Birth Date</label>
+                                        <p:inputText type="date" converter="dateConverter" id="button" value="#{userModel.user.dob}" required="true" requiredMessage="This is Required" />
+                                        <label>Province</label>
+                                        <b:selectOneMenu id="dep" value="#{districtModel.pid}" required="true" style="height: 30px" required-message="This is Required">
+                                            <f:selectItem itemLabel="(Please select)" />
+                                            <f:selectItems value="#{provinceModel.provinces}" var="pr" itemLabel="#{pr.provincename}"  itemValue="#{pr.provincecode}"/>
+                                            <f:ajax render="district" listener="#{districtModel.byProvince()}"/>
+                                        </b:selectOneMenu>
+                                        <label>District</label>
+                                        <b:selectOneMenu value="#{sectorModel.did}"
+                                                         id="district" required="true" style="height: 30px" required-message="This is Required">
+                                            <f:selectItems value="#{districtModel.ds}" var="dist" itemLabel="#{dist.namedistrict}"/>
+                                            <f:ajax render="sector" listener="#{sectorModel.byDistrict()}"/>
+                                        </b:selectOneMenu>
+                                        <label>Sector</label>
+                                        <b:selectOneMenu value="#{userModel.dic}" id="sector" style="height: 30px" required-message="This is Required">
+                                            <f:selectItems value="#{sectorModel.ds}" var="sect" itemLabel="#{sect.namesector}"/>
+                                        </b:selectOneMenu> 
+
+                                        <label>Password</label>
+                                        <b:inputText type="password" style="height: 30px" value="#{userModel.user.pasword}" required="true" required-message="This is Required"/>
+                                        <label>Confirm Password</label>
+                                        <b:inputText  type="password" style="height: 30px" value="#{userModel.ps}" required="true"/>
+                                        <b:commandButton value="Register" update="register" class="btn btn-primary" action="#{userModel.recordUser()}"/>
+                                    </h:panelGrid>
+                                </p:panel>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </h:form>
+                </div>
+            </div>   
+        </div>
+    </h:body>
+</html>
+

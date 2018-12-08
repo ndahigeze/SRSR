@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html  xmlns="http://www.w3.org/1999/xhtml"
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:b="http://bootsfaces.net/ui"
+       xmlns:p="http://primefaces.org/ui"
+       xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>home</title>
+        <link href="#{request.contextPath}/css/bootstrap-material.css" rel="stylesheet" type="text/css"/>
+        <link href="#{request.contextPath}/css/myStyle.css" rel="stylesheet" type="text/css"/>
+        <script src="#{request.contextPath}/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/js/Myjs.js" type="text/javascript"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </h:head>
+    <body style="font-size: 15px">
+        <h:form id="head">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mr-auto">
+                        <li classs="nav-item active">
+                            <a class="nav-link" href="#" >Faculty</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#department">Department</a>
+                        </li>
+                        <li class="nav-item" id="register">
+                            <a class="nav-link" href="#">Users And Student </a>
+                        </li>
+                        <li class="nav-item" id="register">
+                            <a class="nav-link" href="#">Course</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                            <li classs="nav-item active">
+                                <b:commandButton action="#{userModel.logout()}" value="Logout"  class="btn btn-info"/>
+                            </li>
+                    </ul>
+                </div>
+            </nav>
+        </h:form>
+        <div class="container-fluid" id="container">
+            <section  id="rowfaculty">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">Record New Faculty</div>
+                            <div class="card-body">
+                                <h:form id="frecod">
+                                    <p:panel toggleable="true"  id="record">
+                                        <p:messages autoUpdate="true" />
+                                        <h:panelGrid columns="2" style="width: 100%;">
+                                            <label for="sid">Faculty Name</label>
+                                            <b:inputText style="height: 30px" value="#{facultyModel.faculty.name}" required="true" required-message="Student Id is Required"/>
+                                            <label>Dean Id</label>
+                                            <b:inputText style="height: 30px" value="#{facultyModel.user.fname}" required="true"/>
+                                            <b:commandButton value="Record" update="faculty" class="btn btn-primary" action="#{facultyModel.recordFaculty()}"/>
+                                        </h:panelGrid>
+                                    </p:panel>
+                                </h:form>  
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                Users List
+                            </div>
+                            <div class="card-body">
+                                <h:form id="users">
+                                    <b:dataTable value="#{userModel.users}" var="u" searching="true" pdf="true" >
+                                        <b:dataTableColumn label="Asign">
+                                            <b:commandButton value="Asign To Faculty" update=":frecod,:deprecord" class="btn btn-primary">
+                                                <f:setPropertyActionListener value="#{u}" target="#{facultyModel.user}"/>
+                                                <f:setPropertyActionListener value="#{u}" target="#{departmentModel.user}"/>
+                                            </b:commandButton>
+                                        </b:dataTableColumn>
+                                        <b:dataTableColumn value="#{u.sid}" label="Users Id"/>
+                                        <b:dataTableColumn value="#{u.fname}" label="First Name"/>
+                                        <b:dataTableColumn value="#{u.lname}" label="Last Name"/>
+                                        <b:dataTableColumn value="#{u.dob}" label="Birth Date"/>
+                                        <b:dataTableColumn value="#{u.type}" label="Type"/>
+                                        <b:dataTableColumn value="#{u.phone}" label="Phone"/>
+                                        <b:dataTableColumn value="#{u.sector.namesector}" label="Location"/>
+                                    </b:dataTable>
+                                </h:form>
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="department">
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Faculty List</div>
+                            <div class="card-body">
+                                <h:form id="faculty">
+                                    <b:dataTable value="#{facultyModel.faculties}" var="f" searching="true" >
+                                        <b:dataTableColumn value="#{f.name}" label="Faculty Name"/>
+                                        <b:dataTableColumn value="#{f.dean.fname}" label="Dean"/>
+                                        <b:dataTableColumn label="Asign">
+                                            <b:commandButton value="Edit" update=":frecod,:deprecord" class="btn btn-primary">
+                                                <f:setPropertyActionListener value="#{f}" target="#{departmentModel.faculty}"/>
+                                            </b:commandButton>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </h:form> 
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">Record New Department</div>
+                            <div class="card-body">
+                                <h:form id="deprecord">
+                                    <p:panel toggleable="true"  id="record">
+                                        <p:messages autoUpdate="true" for="deprecord" />
+                                        <h:panelGrid columns="2" style="width: 100%;">
+                                            <label for="sid">Department Name</label>
+                                            <b:inputText style="height: 30px" value="#{departmentModel.departmnent.name}" required="true" required-message="Student Id is Required"/>
+                                            <label for="sid">Dean</label>
+                                            <b:inputText style="height: 30px" value="#{departmentModel.user.fname}" required="true"/>
+                                            <label>Faculty</label>
+                                            <b:selectOneMenu id="dep" value="#{departmentModel.faculty}">
+                                                <f:selectItem itemLabel="Select Faculty"  />
+                                                <f:selectItems value="#{facultyModel.faculties}" var="pr" itemLabel="#{pr.name}"/>
+                                            </b:selectOneMenu>
+
+                                        </h:panelGrid>
+                                        <b:commandButton value="Record" update=":faculty,deprecord,:department " class="btn btn-primary" action="#{departmentModel.recordDepartment()}"/>
+                                    </p:panel>
+                                </h:form>  
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card mt-3">
+                            <div class="card-header">Department List</div>
+                            <div class="card-body">
+                                <h:form id="department">
+                                    <b:dataTable value="#{departmentModel.departments}" var="d" searching="true" >
+                                        <b:dataTableColumn value="#{d.name}" label="Faculty Name"/>
+                                        <b:dataTableColumn value="#{d.dean.fname}" label="Dean"/>
+                                        <b:dataTableColumn label="Asign">
+                                            <b:commandButton value="Edit" update=":frecod,:deprecord" class="btn btn-primary">
+                                                <f:setPropertyActionListener value="#{f}" target="#{departmentModel.faculty}"/>
+                                            </b:commandButton>
+                                        </b:dataTableColumn>
+                                    </b:dataTable>
+                                </h:form> 
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
