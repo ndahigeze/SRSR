@@ -21,8 +21,26 @@ and open the template in the editor.
    height: 400px;
    overflow: auto; 
 }*/
+.sidelinks a{
+    text-decoration: none;
+    display: inline;
+    color: silver;
+}
+.sidelinks ul{
+    display: inline;
+    margin-left:10%; 
+}
+.sidelinks ul li{
+     padding-top: 5px;
+     border-bottom: 1px solid slategrey;
+     padding-bottom: 5px;
+}
+#sideBar{
+    height: 100vh;
+    background-color: #2E2E2E;
+}
 #container{
     position: relative;
-    top:100px;
+    top:80px;
 }
 

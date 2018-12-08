@@ -23,7 +23,7 @@ import javax.faces.context.FacesContext;
 @ManagedBean
 @SessionScoped
 public class ProvinceModel{
-      private Province province=new Province();
+     private Province province=new Province();
     private List<Province> provinces=new ProvinceDao().findAll(Province.class);
     private String search=new String();
     private String proUp=new String();
@@ -123,6 +123,6 @@ public class ProvinceModel{
     } 
       @PostConstruct
       public void province(){
-      provinces=new ProvinceDao().findAll(Province.class);
+       provinces=new ProvinceDao().findAll(Province.class);
       }
 }

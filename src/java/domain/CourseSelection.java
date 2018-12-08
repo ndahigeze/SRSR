@@ -6,12 +6,15 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.UUID;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
 import javax.persistence.UniqueConstraint;
 
 /**
@@ -20,7 +23,7 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 
-@Table( uniqueConstraints = @UniqueConstraint(columnNames = { "course", "student" }))
+@Table( uniqueConstraints = @UniqueConstraint(columnNames = { "course", "student" ,"status"}))
 public class CourseSelection implements Serializable {
     @Id
    private String id=UUID.randomUUID().toString();
@@ -30,7 +33,27 @@ public class CourseSelection implements Serializable {
     @ManyToOne
     @JoinColumn(name="student")
    private Users student;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date selectionDate;
+    @Column(name="status")
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    public Date getSelectionDate() {
+        return selectionDate;
+    }
+
+    public void setSelectionDate(Date selectionDate) {
+        this.selectionDate = selectionDate;
+    }
+    
     public String getId() {
         return id;
     }

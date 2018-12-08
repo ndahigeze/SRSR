@@ -99,7 +99,10 @@ public class DepartmentModel{
         }
         
     }
-   
+      public void setdepartment(Department d){
+          user=d.getDean();
+          departmnent=d;
+        }
      public void updateDepartment(){
          Faculty f=new Faculty();
          f.setId(faculty);

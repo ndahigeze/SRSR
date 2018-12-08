@@ -109,7 +109,7 @@ public class UserModel {
                  search.contains(u.getId()+"")||
                          u.getFname().toLowerCase().contains(search)||
                          u.getLname().toLowerCase().contains(search)||
-                         u.getSid().toLowerCase().contains(search)||
+                         u.getId().toLowerCase().contains(search)||
                          u.getPhone().toLowerCase().contains(search)
                  )).forEachOrdered((u) -> {
                      users.add(u);
@@ -123,6 +123,7 @@ public class UserModel {
         Sector s=new Sector();
         s.setSectorcode(dic);
         try{
+            user.setStatus("active");
             user.setSector(s);
             user.setType("Student");
              String msg=new UserDao().create(user);
@@ -134,7 +135,7 @@ public class UserModel {
         }
         
     }
-   
+     
      public void updateUser(){
         try{
              String msg=new UserDao().update(userDetails);
@@ -215,4 +216,26 @@ public class UserModel {
          ec.redirect(ec.getRequestContextPath() + "/pages/login.xhtml");        
     }
     
+      public void activate(Users u){
+        try{
+              u.setStatus("active");
+             String msg=new UserDao().update(u);
+            users=new UserDao().findAll(Users.class);
+             FacesContext.getCurrentInstance().addMessage("users", new FacesMessage(msg, ""));
+        }catch(Exception ex){
+              FacesContext.getCurrentInstance().addMessage("users", new FacesMessage("There is a problem", ""));
+        }
+        
+    }
+        public void block(Users u){
+        try{
+            u.setStatus("block");
+             String msg=new UserDao().update(u);
+            users=new UserDao().findAll(Users.class);
+             FacesContext.getCurrentInstance().addMessage("users", new FacesMessage(msg, ""));
+        }catch(Exception ex){
+            FacesContext.getCurrentInstance().addMessage("users", new FacesMessage("There is a problem", ""));
+        }
+        
+    }
 }

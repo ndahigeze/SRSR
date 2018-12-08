@@ -21,7 +21,7 @@ public class GenericDao<X> {
         try{
             Session s=HibernateUtil.getSessionFactory().openSession();
             s.beginTransaction();
-            s.save(x);
+            s.saveOrUpdate(x);
             s.getTransaction().commit();
             s.close();
             return "Saved";
@@ -37,9 +37,9 @@ public class GenericDao<X> {
             s.update(x);
             s.getTransaction().commit();
             s.close();
-            return "OK";
+            return "Done Successfully";
         }catch(Exception ex){
-            return "not Saved"+ex.getMessage();
+            return "not Updated"+ex.getMessage();
         }
     }
         public String delete(X x){
@@ -66,6 +66,7 @@ public class GenericDao<X> {
             Session s=HibernateUtil.getSessionFactory().openSession();
             Query q=s.createQuery("from "+c.getName()+" s");
             List<X> l=q.list();
+            s.close();
             return l;
         }
    

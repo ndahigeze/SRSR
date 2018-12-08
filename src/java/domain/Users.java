@@ -35,12 +35,12 @@ public class Users implements Serializable {
     }
     
     @Id 
-   private String id=UUID.randomUUID().toString();
-   private String sid;
+   private String id;
    private String fname;
    private String lname;
    private String phone;
    private String pasword;
+   private String status;
     @Temporal(javax.persistence.TemporalType.DATE)
    private Date dob; 
    @ManyToOne
@@ -50,6 +50,14 @@ public class Users implements Serializable {
     @ManyToOne
     private Sector sector;
     private String type;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public String getPasword() {
         return pasword;
@@ -90,16 +98,6 @@ public class Users implements Serializable {
     public void setId(String id) {
         this.id = id;
     }
-
-    public String getSid() {
-        return sid;
-    }
-
-    public void setSid(String sid) {
-        this.sid = sid;
-    }
-
-   
     public String getFname() {
         return fname;
     }

@@ -89,10 +89,15 @@ public class FacultyModel{
         
     }
    
+       public void setfaculty(Faculty f){
+          user=f.getDean();
+          faculty=f;
+        }
      public void updateFaculty(){
         try{
-             String msg=new FacultyDao().update(update);
-            update=new Faculty();
+              faculty.setDean(user);
+             String msg=new FacultyDao().update(faculty);
+             faculty=new Faculty();
             faculties=new FacultyDao().findAll(Faculty.class);
              Message.succes(msg, "");
         }catch(Exception ex){

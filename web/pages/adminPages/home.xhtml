@@ -35,10 +35,7 @@ and open the template in the editor.
                             <a class="nav-link" href="#department">Department</a>
                         </li>
                         <li class="nav-item" id="register">
-                            <a class="nav-link" href="#">Users And Student </a>
-                        </li>
-                        <li class="nav-item" id="register">
-                            <a class="nav-link" href="#">Course</a>
+                             <h:link value = "Course" outcome = "course"  class="nav-link" />
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -61,10 +58,10 @@ and open the template in the editor.
                                         <p:messages autoUpdate="true" />
                                         <h:panelGrid columns="2" style="width: 100%;">
                                             <label for="sid">Faculty Name</label>
-                                            <b:inputText style="height: 30px" value="#{facultyModel.faculty.name}" required="true" required-message="Student Id is Required"/>
+                                            <b:inputText style="height: 30px" value="#{facultyModel.faculty.name}" required="true" required-message="Faculty Name is Required"/>
                                             <label>Dean Id</label>
                                             <b:inputText style="height: 30px" value="#{facultyModel.user.fname}" required="true"/>
-                                            <b:commandButton value="Record" update="faculty" class="btn btn-primary" action="#{facultyModel.recordFaculty()}"/>
+                                            <b:commandButton value="Record" update="faculty,:deprecord" class="btn btn-primary" action="#{facultyModel.recordFaculty()}"/>
                                         </h:panelGrid>
                                     </p:panel>
                                 </h:form>  
@@ -87,7 +84,7 @@ and open the template in the editor.
                                                 <f:setPropertyActionListener value="#{u}" target="#{departmentModel.user}"/>
                                             </b:commandButton>
                                         </b:dataTableColumn>
-                                        <b:dataTableColumn value="#{u.sid}" label="Users Id"/>
+                                        <b:dataTableColumn value="#{u.id}" label="Users Id"/>
                                         <b:dataTableColumn value="#{u.fname}" label="First Name"/>
                                         <b:dataTableColumn value="#{u.lname}" label="Last Name"/>
                                         <b:dataTableColumn value="#{u.dob}" label="Birth Date"/>
@@ -105,7 +102,34 @@ and open the template in the editor.
             <section id="department">
                 <div class="row mt-3">
                     <div class="col">
-                        <div class="card">
+                         <div class="card">
+                            <div class="card-header">Record New Department</div>
+                            <div class="card-title"><p:messages autoUpdate="true" for="deprecord" /></div>
+                            <div class="card-body">
+                                <h:form id="deprecord">
+                                    <p:panel  id="record">
+                                        
+                                        <h:panelGrid columns="2" style="width: 100%;">
+                                            <label for="sid">Department Name</label>
+                                            <b:inputText style="height: 30px" value="#{departmentModel.departmnent.name}" required="true" required-message="Student Id is Required"/>
+                                            <label for="sid">Dean</label>
+                                            <b:inputText style="height: 30px" value="#{departmentModel.user.fname}" required="true"/>
+                                            <label>Faculty</label>
+                                            <b:selectOneMenu id="dep" value="#{departmentModel.faculty}" style="height: 30px" >
+                                                <f:selectItem itemLabel="Select Faculty"  />
+                                                <f:selectItems value="#{facultyModel.faculties}" var="pr" itemLabel="#{pr.name}"/>
+                                            </b:selectOneMenu>
+
+                                        </h:panelGrid>
+                                        <b:commandButton value="Record" update=":departmentlist"  class="btn btn-primary" action="#{departmentModel.recordDepartment()}"/>
+                                    </p:panel>
+                                </h:form>  
+                            </div>
+                            <div class="card-footer"></div>
+                        </div>
+                    </div>
+                    <div class="col">
+                       <div class="card">
                             <div class="card-header">Faculty List</div>
                             <div class="card-body">
                                 <h:form id="faculty">
@@ -113,8 +137,8 @@ and open the template in the editor.
                                         <b:dataTableColumn value="#{f.name}" label="Faculty Name"/>
                                         <b:dataTableColumn value="#{f.dean.fname}" label="Dean"/>
                                         <b:dataTableColumn label="Asign">
-                                            <b:commandButton value="Edit" update=":frecod,:deprecord" class="btn btn-primary">
-                                                <f:setPropertyActionListener value="#{f}" target="#{departmentModel.faculty}"/>
+                                            <b:commandButton value="Edit" update=":frecod" action="#{facultyModel.setfaculty(f)}" class="btn btn-primary">
+                                                <f:setPropertyActionListener value="#{f}" target="#{facultyModel.update}" />
                                             </b:commandButton>
                                         </b:dataTableColumn>
                                     </b:dataTable>
@@ -124,42 +148,16 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="col">
-                        <div class="card">
-                            <div class="card-header">Record New Department</div>
-                            <div class="card-body">
-                                <h:form id="deprecord">
-                                    <p:panel toggleable="true"  id="record">
-                                        <p:messages autoUpdate="true" for="deprecord" />
-                                        <h:panelGrid columns="2" style="width: 100%;">
-                                            <label for="sid">Department Name</label>
-                                            <b:inputText style="height: 30px" value="#{departmentModel.departmnent.name}" required="true" required-message="Student Id is Required"/>
-                                            <label for="sid">Dean</label>
-                                            <b:inputText style="height: 30px" value="#{departmentModel.user.fname}" required="true"/>
-                                            <label>Faculty</label>
-                                            <b:selectOneMenu id="dep" value="#{departmentModel.faculty}">
-                                                <f:selectItem itemLabel="Select Faculty"  />
-                                                <f:selectItems value="#{facultyModel.faculties}" var="pr" itemLabel="#{pr.name}"/>
-                                            </b:selectOneMenu>
-
-                                        </h:panelGrid>
-                                        <b:commandButton value="Record" update=":faculty,deprecord,:department " class="btn btn-primary" action="#{departmentModel.recordDepartment()}"/>
-                                    </p:panel>
-                                </h:form>  
-                            </div>
-                            <div class="card-footer"></div>
-                        </div>
-                    </div>
-                    <div class="col">
                         <div class="card mt-3">
                             <div class="card-header">Department List</div>
                             <div class="card-body">
-                                <h:form id="department">
+                                <h:form id="departmentlist">
                                     <b:dataTable value="#{departmentModel.departments}" var="d" searching="true" >
-                                        <b:dataTableColumn value="#{d.name}" label="Faculty Name"/>
+                                        <b:dataTableColumn value="#{d.name}" label="Department Name"/>
                                         <b:dataTableColumn value="#{d.dean.fname}" label="Dean"/>
                                         <b:dataTableColumn label="Asign">
-                                            <b:commandButton value="Edit" update=":frecod,:deprecord" class="btn btn-primary">
-                                                <f:setPropertyActionListener value="#{f}" target="#{departmentModel.faculty}"/>
+                                            <b:commandButton value="Edit" update=":frecod,:deprecord" action="#{departmentModel.setdepartment(d)}" class="btn btn-primary">
+                                                <f:setPropertyActionListener value="#{d}" target="#{departmentModel.update}"/>
                                             </b:commandButton>
                                         </b:dataTableColumn>
                                     </b:dataTable>
