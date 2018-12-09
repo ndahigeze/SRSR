@@ -175,10 +175,10 @@ public class UserModel {
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("session", user);
                      ec.redirect(ec.getRequestContextPath() + "/pages/adminPages/home.xhtml");
                     return "pages/adminPages/home.xhtml?faces-redirect=true";
-                case "Dean":
+                case "Student":
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("session", user);
-                    ec.redirect(ec.getRequestContextPath() + "/pages/studentPage/home.xhtml");
-                    return "pages/studentPage/coursepage.xhtml?faces-redirect=true";
+                    ec.redirect(ec.getRequestContextPath() + "/pages/studentPage/coursepage.xhtml");
+                    return "pages/studentPages/coursepage.xhtml?faces-redirect=true";
                 default:
                     user=null;
                     

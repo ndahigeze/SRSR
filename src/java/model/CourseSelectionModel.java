@@ -5,8 +5,12 @@
  */
 package model;
 
+import config.Message;
 import dao.CourseSelectionDao;
+import domain.Course;
 import domain.CourseSelection;
+import domain.Users;
+import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -24,6 +28,23 @@ public class CourseSelectionModel{
     private String search;
     private String course;
     private String student;
+
+    public String getCourse() {
+        return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
+    }
+
+    public String getStudent() {
+        return student;
+    }
+
+    public void setStudent(String student) {
+        this.student = student;
+    }
+    
     public List<CourseSelection> getSelections() {
         return selections;
     }
@@ -56,4 +77,22 @@ public class CourseSelectionModel{
         this.search = search;
     }
     
+    public void save(){
+     Users u=new Users();
+     u.setId(student);
+     Course c=new Course();
+     c.setId(course);
+     try{
+         selection.setCourse(c);
+         selection.setStudent(u);
+         selection.setStatus("pass");
+         selection.setSelectionDate(new Date());
+         String msg=new CourseSelectionDao().create(selection);
+         student=new String();
+         course=new String();
+           Message.succes(msg, "");
+     }catch(Exception ex){
+           Message.failure(ex.getLocalizedMessage(), "");
+     }
+    }
 }

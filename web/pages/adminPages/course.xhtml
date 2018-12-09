@@ -57,7 +57,8 @@ and open the template in the editor.
                 </div>
             </div>
             <div class="col">
-                <div class="container-fluid" id="container">  
+                <div class="container-fluid" id="container"> 
+                     <p:messages autoUpdate="true" closable="true"  />
                     <section id="courseAdd">
                         <div class="row">
                             <div class="col-md-4">
@@ -66,12 +67,12 @@ and open the template in the editor.
                                     <div class="card-body">
                                         <h:form id="crecod">
                                             <p:panel toggleable="true"  id="record">
-                                                <p:messages autoUpdate="true" closable="true"  />
+                                               
                                                 <h:panelGrid columns="2" style="width: 100%;">
                                                     <label for="sid">Course Name</label>
                                                     <b:inputText style="height: 30px" value="#{courseModel.course.name}" required="true" required-message="Student Id is Required"/>
                                                     <label>Course code</label>
-                                                    <b:inputText style="height: 30px" value="#{courseModel.course.code}" required="true"/>
+                                                    <b:inputText style="height: 30px" value="#{courseModel.course.id}" required="true"/>
                                                     <label>Credits</label>
                                                     <b:inputText style="height: 30px" value="#{courseModel.course.credit}" required="true"/>
                                                     <label>Department</label>
@@ -100,7 +101,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="card-body">
                                             <b:dataTable value="#{courseModel.courses}" var="u" searching="true" pdf="true">
-                                                <b:dataTableColumn value="#{u.code}" label="Course Code"/>
+                                                <b:dataTableColumn value="#{u.id}" label="Course Code"/>
                                                 <b:dataTableColumn value="#{u.name}" label="Course name"/>
                                                 <b:dataTableColumn value="#{u.credit}" label="Course Credit"/>
                                                 <b:dataTableColumn value="#{u.department.name}" label="Department"/>

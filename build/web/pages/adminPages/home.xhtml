@@ -47,6 +47,7 @@ and open the template in the editor.
             </nav>
         </h:form>
         <div class="container-fluid" id="container">
+            <p:messages autoUpdate="true" closable="true" />
             <section  id="rowfaculty">
                 <div class="row">
                     <div class="col-md-4">
@@ -55,7 +56,6 @@ and open the template in the editor.
                             <div class="card-body">
                                 <h:form id="frecod">
                                     <p:panel toggleable="true"  id="record">
-                                        <p:messages autoUpdate="true" />
                                         <h:panelGrid columns="2" style="width: 100%;">
                                             <label for="sid">Faculty Name</label>
                                             <b:inputText style="height: 30px" value="#{facultyModel.faculty.name}" required="true" required-message="Faculty Name is Required"/>
