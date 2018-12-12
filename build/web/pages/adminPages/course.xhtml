@@ -32,9 +32,6 @@ and open the template in the editor.
                             <a class="nav-link" href="home.xhtml">Department</a>
                         </li>
                         <li class="nav-item" id="register">
-                            <a class="nav-link" href="#">Users And Student </a>
-                        </li>
-                        <li class="nav-item" id="register">
                             <a class="nav-link" href="#">Course</a>
                         </li>
                     </ul>
@@ -50,9 +47,8 @@ and open the template in the editor.
             <div class="col-md-2" id="sideBar">
                 <div id="container" class="sidelinks">
                     <ul >
-                        <li><a href="#">Course</a></li>
-                         <li><a href="#">Users</a></li>
-                        <li><a href="#">Student with course Selected</a></li>
+                        <li><a href="#courseAdd">Course</a></li>
+                         <li><a href="#courses">Users</a></li>
                     </ul>
                 </div>
             </div>
@@ -67,7 +63,6 @@ and open the template in the editor.
                                     <div class="card-body">
                                         <h:form id="crecod">
                                             <p:panel toggleable="true"  id="record">
-                                               
                                                 <h:panelGrid columns="2" style="width: 100%;">
                                                     <label for="sid">Course Name</label>
                                                     <b:inputText style="height: 30px" value="#{courseModel.course.name}" required="true" required-message="Student Id is Required"/>
@@ -144,7 +139,7 @@ and open the template in the editor.
                                                     <b:commandButton value="Block" update="users" class="btn btn-primary" action="#{userModel.block(u)}"/>
                                                 </b:dataTableColumn>
                                                 <b:dataTableColumn label="Activate">
-                                                    <b:commandButton value="Activete" update="users" class="btn btn-primary"  action="#{userModel.activate(u)}"/>                                                
+                                                    <b:commandButton value="Activate" update="users" class="btn btn-primary"  action="#{userModel.activate(u)}"/>                                                
                                                 </b:dataTableColumn>
                                             </b:dataTable>
 

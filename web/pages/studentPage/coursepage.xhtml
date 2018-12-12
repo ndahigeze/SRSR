@@ -33,6 +33,7 @@ and open the template in the editor.
                         </li>
                     </ul>
                     <ul class="navbar-nav">
+
                         <li classs="nav-item active">
                             <b:commandButton action="#{userModel.logout()}" value="Logout"  class="btn btn-info"/>
                         </li>
@@ -40,10 +41,22 @@ and open the template in the editor.
                 </div>
             </nav>
         </h:form>
-        <div class="row col">
-            <div class="col-md-2"></div>
+        <div class="row col"> 
+            <div class="col-md-2" style="margin-top: 100px;">
+                <div class="jumbotron">
+                    <ul style="list-style: inline;">
+                        <li>
+                            <span>#{userModel.userdetails}</span> 
+                        </li>
+                        <li>
+                            <span>ID: #{userModel.sid}</span> 
+                        </li>
+                    </ul>
+                </div>
+            </div>
             <div class="col">
                 <div class="container-fluid" id="container">
+
                     <p:messages autoUpdate="true" closable="true"  />
                     <div class="row">
                         <div class="col-md-5">
@@ -56,8 +69,8 @@ and open the template in the editor.
                                                 <label for="sid">Course Code</label>
                                                 <b:inputText style="height: 30px" placeholder="Course Code" value="#{courseSelectionModel.course}" required="true" required-message="Student Id is Required"/>
                                                 <label>Student code</label>
-                                                <b:inputText style="height: 30px" placeholder="Student Code" value="#{courseSelectionModel.student}" required="true" required-message="Course Id is Required"/>
-                                                <b:commandButton value="Record" update="crecod"  class="btn btn-primary" action="#{courseSelectionModel.save()}"/>
+                                                <b:inputText value="#{courseSelectionModel.student}"  style="height: 30px" required="true" required-message="Student Id Required" />
+                                                <b:commandButton value="Record" update="crecod" style="height: 30px"  class="btn btn-primary" action="#{courseSelectionModel.save()}"/>
                                             </h:panelGrid>
                                         </p:panel>
                                     </h:form>  
@@ -93,28 +106,18 @@ and open the template in the editor.
                     <div class="row">
                         <div class="col-md-5 mt-4">
                             <h:form>
-                                 <h:commandLink value="Pdf">
-                                                <p:dataExporter type="pdf" target="tbl" fileName="cars"/>
-                                            </h:commandLink>
-                                <p:dataTable id="tbl" var="c" value="#{courseSelectionModel.selections}"
-                                             paginatorTemplate="{CurrentPageReport} {PreviousPageLink} {PageLinks} {NextPageLink} Exporter"
-                                             paginator="true" rows="10"  style="margin-bottom:20px">
-                                    <f:facet name="Exporter" >
-                                        <div style="float:right;padding-top: 5px;">
-                                            <h:commandLink>
-                                                <p:graphicImage name="Excel" width="24"/>
-                                                <p:dataExporter type="csv" target="tbl" fileName="cars" />
-                                            </h:commandLink>
-                                        </div>
-                                    </f:facet>
-                                    <p:column exportable="true">
+                                <h:commandLink value="Print the Card of courses you select">
+                                    <p:dataExporter type="pdf" target="tbl" fileName="StudentCourse" />
+                                </h:commandLink>
+                                <p:dataTable id="tbl" var="c" value="#{courseSelectionModel.selections}">
+                                    <p:column exportable="true" headerText="Student Id">
                                         <f:facet name="Student">
                                             <h:outputText value="" />
                                         </f:facet>
                                         <h:outputText value="#{c.student.id}" />
                                     </p:column>
-                                    <p:column>
-                                        <f:facet name="Student">
+                                    <p:column headerText="Course Name">
+                                        <f:facet name="Course">
                                             <h:outputText value="" />
                                         </f:facet>
                                         <h:outputText value="#{c.course.name}" />

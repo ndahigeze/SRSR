@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,7 +29,15 @@ public class CourseSelectionModel{
     private String search;
     private String course;
     private String student;
+    private Users u=new Users();
+    public Users getU() {
+        return u;
+    }
 
+    public void setU(Users u) {
+        this.u = u;
+    }
+    
     public String getCourse() {
         return course;
     }

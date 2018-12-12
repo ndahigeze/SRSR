@@ -33,7 +33,25 @@ public class UserModel {
     private Users user=new Users();
     private Users userDetails=new Users();
     private String search;
+    private String userdetails;
+    private String sid;
 
+    public String getSid() {
+        return sid;
+    }
+
+    public void setSid(String sid) {
+        this.sid = sid;
+    }
+    
+    public String getUserdetails() {
+        return userdetails;
+    }
+
+    public void setUserdetails(String userdetails) {
+        this.userdetails = userdetails;
+    }
+    
     public String getPs() {
         return ps;
     }
@@ -170,6 +188,8 @@ public class UserModel {
         findUser();
          ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
         if(user!=null){
+            userdetails=user.getType()+":  "+user.getFname()+" "+user.getLname()+" ";
+            sid=user.getId();
             switch (user.getType()) {
                 case "Admin":
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("session", user);
