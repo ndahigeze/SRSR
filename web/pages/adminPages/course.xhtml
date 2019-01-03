@@ -14,7 +14,7 @@ and open the template in the editor.
         <title>course</title>
         <link href="#{request.contextPath}/css/bootstrap-material.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/css/myStyle.css" rel="stylesheet" type="text/css"/>
-        <script src="#{request.contextPath}/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+        <script src="#{request.contextPath}/js/jquery-2.2.4.js" type="text/javascript"></script>
         <script src="#{request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="#{request.contextPath}/js/Myjs.js" type="text/javascript"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -29,7 +29,7 @@ and open the template in the editor.
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="home.xhtml">Department</a>
+                            <a class="nav-link" href="home.xhtml">Faculty and Department</a>
                         </li>
                         <li class="nav-item" id="register">
                             <a class="nav-link" href="#">Course</a>
@@ -48,13 +48,16 @@ and open the template in the editor.
                 <div id="container" class="sidelinks">
                     <ul >
                         <li><a href="#courseAdd">Course</a></li>
-                         <li><a href="#courses">Users</a></li>
+                        <li><a href="#courses">Users</a></li>
                     </ul>
                 </div>
             </div>
+            <div class="col-md-2">
+
+            </div>
             <div class="col">
                 <div class="container-fluid" id="container"> 
-                     <p:messages autoUpdate="true" closable="true"  />
+                    <p:messages autoUpdate="true" closable="true" for="crecord" />
                     <section id="courseAdd">
                         <div class="row">
                             <div class="col-md-4">
@@ -63,20 +66,25 @@ and open the template in the editor.
                                     <div class="card-body">
                                         <h:form id="crecod">
                                             <p:panel toggleable="true"  id="record">
-                                                <h:panelGrid columns="2" style="width: 100%;">
+                                                <h:panelGrid columns="3" style="width: 100%;">
                                                     <label for="sid">Course Name</label>
-                                                    <b:inputText style="height: 30px" value="#{courseModel.course.name}" required="true" required-message="Student Id is Required"/>
+                                                    <b:inputText style="height: 30px" id="n" value="#{courseModel.course.name}" required="true" required-message="Course Required"/>
+                                                    <p:message display="text" for="n"/>
                                                     <label>Course code</label>
-                                                    <b:inputText style="height: 30px" value="#{courseModel.course.id}" required="true"/>
+                                                    <b:inputText style="height: 30px" id="id" value="#{courseModel.course.id}" required="true" required-message="Course Code required" />
+                                                    <p:message display="text" for="id"/>
                                                     <label>Credits</label>
-                                                    <b:inputText style="height: 30px" value="#{courseModel.course.credit}" required="true"/>
+                                                    <b:inputText style="height: 30px" id="cr" value="#{courseModel.course.credit}" required="true"/>
+                                                    <p:message display="text" for="cr"/>
                                                     <label>Department</label>
                                                     <b:selectOneMenu id="dep" value="#{courseModel.department}" style="height: 30px" >
                                                         <f:selectItem itemLabel="Select Department"  />
                                                         <f:selectItems value="#{departmentModel.departments}" var="pr" itemLabel="#{pr.name}"/>
                                                     </b:selectOneMenu>
-                                                    <b:commandButton value="Record" update=":courses,crecod"  class="btn btn-primary" action="#{courseModel.recordDepartment()}"/>
+                                                    <p:message display="text" for="dep"/>
+
                                                 </h:panelGrid>
+                                                <b:commandButton value="Record" update="courses,crecod"  class="btn btn-primary" action="#{courseModel.recordCourse()}"/>
                                             </p:panel>
                                         </h:form>  
                                     </div>
@@ -89,17 +97,17 @@ and open the template in the editor.
                                         <div class="card-header">
                                             <div class="row">
                                                 <div class="col">Course List</div>
-                                                <div class="col">
-                                                    <b:inputText placeholder="Search" style="height: 30px" value="#{courseModel.search}" update="courses" onkeypress="#{courseModel.ccourse()}"  ajax="true"/>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="card-body">
-                                            <b:dataTable value="#{courseModel.courses}" var="u" searching="true" pdf="true">
+                                            <b:dataTable value="#{courseModel.courses}" column-visibility="true" var="u" searching="true" excel="true" pdf="true">
                                                 <b:dataTableColumn value="#{u.id}" label="Course Code"/>
                                                 <b:dataTableColumn value="#{u.name}" label="Course name"/>
                                                 <b:dataTableColumn value="#{u.credit}" label="Course Credit"/>
                                                 <b:dataTableColumn value="#{u.department.name}" label="Department"/>
+                                                <b:dataTableColumn label="Edit">
+                                                    <b:commandButton value="Edit"  update="crecod" class="btn btn-primary" action="#{courseModel.upFetch(u)}"/>
+                                                </b:dataTableColumn>
                                             </b:dataTable>
 
                                         </div>
@@ -118,28 +126,36 @@ and open the template in the editor.
                                         <div class="card-header">
                                             <div class="row">
                                                 <div class="col">Users List</div>
-                                                <div class="col">
-                                                    <b:inputText placeholder="Search" style="height: 30px" value="#{userModel.search}" update="users" onkeypress="#{userModel.viewUser()}"  ajax="true"/>
-                                                </div>
                                             </div>
                                             <p:messages autoUpdate="true" closable="true" for="users" />
                                         </div>
                                         <div class="card-body">
 
-                                            <b:dataTable value="#{userModel.users}" var="u" searching="true" pdf="true" >
+                                            <b:dataTable value="#{userModel.users}" column-visibility="true" var="u" searching="true" pdf="true" excel="true"  >
                                                 <b:dataTableColumn value="#{u.id}" label="Users Id"/>
-                                                <b:dataTableColumn value="#{u.fname}" label="First Name"/>
-                                                <b:dataTableColumn value="#{u.lname}" label="Last Name"/>
+                                                <b:dataTableColumn label="Names">
+                                                    #{u.fname} #{u.lname}
+                                                </b:dataTableColumn>
                                                 <b:dataTableColumn value="#{u.dob}" label="Birth Date"/>
                                                 <b:dataTableColumn value="#{u.type}" label="Type"/>
                                                 <b:dataTableColumn value="#{u.phone}" label="Phone"/>
                                                 <b:dataTableColumn value="#{u.sector.namesector}" label="Location"/>
-                                                <b:dataTableColumn value="#{u.status}" label="Status"/>
-                                                <b:dataTableColumn label="Block">
-                                                    <b:commandButton value="Block" update="users" class="btn btn-primary" action="#{userModel.block(u)}"/>
+                                                <b:dataTableColumn value="#{u.status}" label="Status"/>                    
+                                                <b:dataTableColumn label="Action">
+                                                    <h:panelGroup rendered="#{u.status=='active'}">
+                                                        <b:commandButton value="Block"  update="users" class="btn btn-danger" action="#{userModel.block(u)}"/>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup rendered="#{u.status=='blocked'}">
+                                                        <b:commandButton value="Activate"  update="users" class="btn btn-info" action="#{userModel.activate(u)}"/>
+                                                    </h:panelGroup>
                                                 </b:dataTableColumn>
-                                                <b:dataTableColumn label="Activate">
-                                                    <b:commandButton value="Activate" update="users" class="btn btn-primary"  action="#{userModel.activate(u)}"/>                                                
+                                                <b:dataTableColumn label="Change User Type">
+                                                    <h:panelGroup rendered="#{u.type=='Admin'}">
+                                                        <b:commandButton value="Change to Student"  update="users" class="btn btn-info" action="#{userModel.student(u)}"/>
+                                                    </h:panelGroup>
+                                                    <h:panelGroup rendered="#{u.type=='Student'}">
+                                                        <b:commandButton value="Change to Admin"  update="users" class="btn btn-info" action="#{userModel.admin(u)}"/>
+                                                    </h:panelGroup>
                                                 </b:dataTableColumn>
                                             </b:dataTable>
 

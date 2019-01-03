@@ -38,6 +38,8 @@ and open the template in the editor.
 #sideBar{
     height: 100vh;
     background-color: #2E2E2E;
+    position: fixed;
+    z-index: 1000;
 }
 #container{
     position: relative;

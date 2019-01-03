@@ -10,6 +10,7 @@ import dao.FacultyDao;
 import domain.Faculty;
 import domain.Users;
 import java.util.List;
+import java.util.Optional;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -20,10 +21,11 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class FacultyModel{
-    private List<Faculty> faculties=new FacultyDao().findAll(Faculty.class);
-    private Faculty faculty=new Faculty();
-    private Faculty update=new Faculty();
+public class FacultyModel {
+
+    private List<Faculty> faculties = new FacultyDao().findAll(Faculty.class);
+    private Faculty faculty = new Faculty();
+    private Faculty update = new Faculty();
     private String search;
     private Users user;
 
@@ -34,8 +36,6 @@ public class FacultyModel{
     public void setUser(Users user) {
         this.user = user;
     }
-
-   
 
     public List<Faculty> getFaculties() {
         return faculties;
@@ -68,41 +68,52 @@ public class FacultyModel{
     public void setSearch(String search) {
         this.search = search;
     }
-    
-    
-      @PostConstruct
-      public void province(){
-      faculties=new FacultyDao().findAll(Faculty.class);
-      }
-      
-        public void recordFaculty(){
-           
-        try{
-            faculty.setDean(user);
-             String msg=new FacultyDao().create(faculty);
-            faculty=new Faculty();
-            faculties=new FacultyDao().findAll(Faculty.class);
-             Message.succes(msg, "");
-        }catch(Exception ex){
-              Message.failure(ex.getLocalizedMessage(), "");
-        }
-        
+
+    @PostConstruct
+    public void province() {
+        faculties = new FacultyDao().findAll(Faculty.class);
     }
-   
-       public void setfaculty(Faculty f){
-          user=f.getDean();
-          faculty=f;
+
+    boolean checkUser() {
+        Optional<Users> u = Optional.ofNullable(user);
+        return u.isPresent();
+    }
+
+    public void recordFaculty() {
+        try {
+            if (!checkUser() || faculty.getName().length() == 0) {
+                Message.succes("User or name Is empty", "", "frecod");
+            }else if(!user.getType().equals("Student")){
+                 Message.succes("Student can not be a dean", "", "frecod");
+            }else{
+                faculty.setDean(user);
+                String msg = new FacultyDao().create(faculty);
+                faculty = new Faculty();
+                faculties = new FacultyDao().findAll(Faculty.class);
+                Message.succes(msg, "", "frecod");
+
+            }
+        } catch (Exception ex) {
+            Message.failure(ex.getLocalizedMessage(), "", "frecod");
         }
-     public void updateFaculty(){
-        try{
-              faculty.setDean(user);
-             String msg=new FacultyDao().update(faculty);
-             faculty=new Faculty();
-            faculties=new FacultyDao().findAll(Faculty.class);
-             Message.succes(msg, "");
-        }catch(Exception ex){
-             Message.failure(ex.getLocalizedMessage(), "");
+
+    }
+
+    public void setfaculty(Faculty f) {
+        user = f.getDean();
+        faculty = f;
+    }
+
+    public void updateFaculty() {
+        try {
+            faculty.setDean(user);
+            String msg = new FacultyDao().update(faculty);
+            faculty = new Faculty();
+            faculties = new FacultyDao().findAll(Faculty.class);
+            Message.succes(msg, "", "frecod");
+        } catch (Exception ex) {
+            Message.failure(ex.getLocalizedMessage(), "", "frecod");
         }
-        
+
     }
 }

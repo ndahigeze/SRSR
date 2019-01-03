@@ -99,9 +99,9 @@ public class CourseSelectionModel{
          String msg=new CourseSelectionDao().create(selection);
          student=new String();
          course=new String();
-           Message.succes(msg, "");
+           Message.succes(msg, "","");
      }catch(Exception ex){
-           Message.failure(ex.getLocalizedMessage(), "");
+           Message.failure(ex.getLocalizedMessage(), "","");
      }
     }
 }

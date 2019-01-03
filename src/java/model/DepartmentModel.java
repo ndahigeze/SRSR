@@ -93,9 +93,9 @@ public class DepartmentModel{
             String msg=new DepartmentDao().create(departmnent);
             departmnent=new Department();
             departments=new DepartmentDao().findAll(Department.class);
-            Message.succes(msg, "");
+            Message.succes(msg, "","");
         }catch(Exception ex){
-              Message.failure(ex.getLocalizedMessage(), "");
+              Message.failure(ex.getLocalizedMessage(), "","");
         }
         
     }
@@ -112,9 +112,9 @@ public class DepartmentModel{
              String msg=new DepartmentDao().update(update);
             update=new Department();
             departments=new DepartmentDao().findAll(Department.class);
-             Message.succes(msg, "");
+             Message.succes(msg, "","");
         }catch(Exception ex){
-             Message.failure(ex.getLocalizedMessage(), "");
+             Message.failure(ex.getLocalizedMessage(), "","");
         }
         
     }

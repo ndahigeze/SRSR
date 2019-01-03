@@ -21,11 +21,12 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class CourseModel{
-    private List<Course> courses=new CourseDao().findAll(Course.class);
-    private Course course=new Course();
-    private Course update=new Course();
-    private String search;
+public class CourseModel {
+
+    private List<Course> courses = new ArrayList();
+    private Course course = new Course();
+    private Course update = new Course();
+    private String search=new String();
     private String department;
 
     public List<Course> getCourses() {
@@ -67,50 +68,53 @@ public class CourseModel{
     public void setDepartment(String department) {
         this.department = department;
     }
-    
-      public void ccourse(){
-       try{
-            if(search.length()!=0){
-           List<Course> list=new CourseDao().findAll(Course.class);
-           courses=new ArrayList();
-           list.stream().filter((l) -> (l.getId().contains(search)||l.getDepartment().getName().contains(search)||l.getName().contains(search)||search.contains(l.getCredit()+""))).forEachOrdered((Course l) -> {
-               courses.add(l);
-           });
-       }else{
-           courses=new CourseDao().findAll(Course.class);
-       }
-       }catch(Exception ex){
-       }
-      
-      }
-      
-        public void recordDepartment(){
-            Department f=new Department();
-            f.setId(department);
-        try{
-            course.setDepartment(f);
-            String msg=new CourseDao().create(course);
-            course=new Course();
-           courses=new CourseDao().findAll(Course.class);
-            Message.succes(msg, "");
-        }catch(Exception ex){
-              Message.failure(ex.getLocalizedMessage(), "");
-        }
+
+    public void upFetch(Course c) {
+        course = c;
+    }
+
+    @PostConstruct
+    public void ccourse() {
+            if (search.length() != 0) {
+                List<Course> list = new CourseDao().findAll(Course.class);
+                courses = new ArrayList();
+                list.stream().filter((l) -> (l.getId().contains(search) || l.getDepartment().getName().contains(search) || l.getName().contains(search) || search.contains(l.getCredit() + ""))).forEachOrdered((Course l) -> {
+                    courses.add(l);
+                });
+            } else {
+                courses = new CourseDao().findAll(Course.class);
+            }
         
     }
-   
-     public void updateDepartment(){
-         Department f=new Department();
-            f.setId(department);
-        try{
+
+    public void recordCourse() {
+        courses = new ArrayList();
+        Department f = new Department();
+        f.setId(department);
+        try {
             course.setDepartment(f);
-            String msg=new CourseDao().update(course);
-            course=new Course();
-           courses=new CourseDao().findAll(Course.class);
-            Message.succes(msg, "");
-        }catch(Exception ex){
-              Message.failure(ex.getLocalizedMessage(), "");
+            String msg = new CourseDao().create(course);
+            course = new Course();
+            courses = new CourseDao().findAll(Course.class);
+            Message.succes(msg, "", "crecord");
+        } catch (Exception ex) {
+            Message.failure(ex.getLocalizedMessage(), "", "crecord");
         }
-        
-    } 
+
+    }
+
+    public void updateCourse() {
+        Department f = new Department();
+        f.setId(department);
+        try {
+            course.setDepartment(f);
+            String msg = new CourseDao().update(course);
+            course = new Course();
+            courses = new CourseDao().findAll(Course.class);
+            Message.succes(msg, "", "");
+        } catch (Exception ex) {
+            Message.failure(ex.getLocalizedMessage(), "", "");
+        }
+
+    }
 }

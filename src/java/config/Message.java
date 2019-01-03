@@ -14,14 +14,14 @@ import javax.faces.context.FacesContext;
  */
 public class Message {
    
-    public static void succes(String summary,String details){
+    public static void succes(String summary,String details,String id){
      FacesContext fc=FacesContext.getCurrentInstance();
-     fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, details));
+     fc.addMessage(id, new FacesMessage(FacesMessage.SEVERITY_INFO, summary, details));
     }
     
-    public static void failure(String summary,String details){
+    public static void failure(String summary,String details,String id){
      FacesContext fc=FacesContext.getCurrentInstance();
-     fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,summary,details));
+     fc.addMessage(id, new FacesMessage(FacesMessage.SEVERITY_INFO,summary,details));
     }
    
 }

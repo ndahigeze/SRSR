@@ -14,7 +14,7 @@ and open the template in the editor.
         <title>TODO supply a title</title>
         <link href="#{request.contextPath}/css/bootstrap-material.css" rel="stylesheet" type="text/css"/>
         <link href="#{request.contextPath}/css/myStyle.css" rel="stylesheet" type="text/css"/>
-        <script src="#{request.contextPath}/js/jquery-3.3.1.min.js" type="text/javascript"></script>
+         <script src="#{request.contextPath}/js/jquery-2.2.4.js" type="text/javascript"></script>
         <script src="#{request.contextPath}/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="#{request.contextPath}/js/Myjs.js" type="text/javascript"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -90,7 +90,7 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="card-body">
-                                        <b:dataTable value="#{courseModel.courses}" var="u" searching="true" pdf="true">
+                                        <b:dataTable value="#{courseModel.courses}" var="u" searching="true" excel="true" pdf="true">
                                             <b:dataTableColumn value="#{u.id}" label="Course Code"/>
                                             <b:dataTableColumn value="#{u.name}" label="Course name"/>
                                             <b:dataTableColumn value="#{u.credit}" label="Course Credit"/>
